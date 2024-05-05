@@ -6,23 +6,94 @@
   <script id="challenge">
     // 👉 CHALLENGE 1
     function profileActivation(profile, reason) {
-
+      if (profile.active === undefined) {
+        return "impossible to ascertain";
+      }
+      
+      if (profile.active && reason === undefined) {
+        return "confirm status manually";
+      }
+      
+      profile.active = !profile.active;
+     
+    if (!profile.active) {
+      if (reason === undefined) {
+        profile.active = !profile.active;
+        return "confirm status manually";
+      } else {
+        profile.reason = reason;
+      }
+    } else { 
+      delete profile.reason;
     }
+    return profile;
+  }
+  
 
     // 👉 CHALLENGE 2
     function mineSweeper(grid, x, y) {
+      return x < 1|| x > 3 || y < 1 || y > 3 
+      ? "invalid coordinates"
+      : `${grid[y - 1][x - 1]} ${
+        grid[y -1][x -1] ==="🟥" ? "💀" : "🥳"
+      }`; 
 
     }
 
     // 👉 CHALLENGE 3
     function booleanize(obj) {
-
+      
+     for (let key in obj) {
+    // Check if property name exceeds 9 chars
+    if (key.length > 9) {
+      return "shorten all prop names to 9 chars or less";
     }
+
+    // Transform 0 to false and 1 to true
+    if (obj[key] === 0) {
+      obj[key] = false;
+    } else if (obj[key] === 1) {
+      obj[key] = true;
+    }
+
+    // Delete properties with null values
+    if (obj[key] === null) {
+      delete obj[key];
+    }
+  }
+  return obj;
+}
+
 
     // 👉 CHALLENGE 4
     function scrub(text, forbidden) {
+  
+  // Check if text is empty or there are no forbidden words
+  if (!text || !forbidden || forbidden.length === 0) {
+    return text;
+  }
 
+  // Remove punctuation
+  let noPunctuationText = text.replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
+
+  // Split text into words
+  let words = noPunctuationText.split(' ');
+
+  // Iterate over words
+  for (let i = 0; i < words.length; i++) {
+    // If the word is forbidden, replace it with 'x's
+    if (forbidden.includes(words[i])) {
+      words[i] = 'x'.repeat(words[i].length);
     }
+  }
+
+  // Join words back together into a string
+  let censoredText = words.join(' ');
+
+  return censoredText;
+}
+
+
 
     // 👉 CHALLENGE 5 (bonus, NOT graded)
     function normalizePhoneNumber(num) {
